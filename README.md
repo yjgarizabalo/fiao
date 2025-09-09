@@ -1,50 +1,78 @@
-# Welcome to your Expo app 👋
+# Bienvenido a tu app Expo 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este es un proyecto [Expo](https://expo.dev) creado con [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started
+## Entorno
 
-1. Install dependencies
+| Herramienta | Versión    |
+|-------------|-----------|
+| Node.js     | 22.19.0   |
+| npm         | 9.x o superior |
+
+## Comandos de instalación
+
+| Paso | Comando                                                                                   |
+|------|------------------------------------------------------------------------------------------|
+| 1    | `npm install --global eas-cli`                                                           |
+| 2    | `npx create-expo-app fiao`                                                               |
+| 3    | `cd fiao`                                                                                |
+| 4    | `eas init --id 56bf5fd1-2c39-45d5-803a-6905a6d28280`                                     |
+
+## Cómo ejecutar la app
+
+| Plataforma | Comando                | Descripción                                                      |
+|------------|------------------------|------------------------------------------------------------------|
+| Android    | `npm run android`      | Ejecuta la app en un emulador o dispositivo Android conectado    |
+| iOS        | `npm run ios`          | Ejecuta la app en un simulador iOS (solo en macOS)               |
+| Web        | `npm run web`          | Ejecuta la app en el navegador                                   |
+
+También puedes iniciar el servidor de desarrollo con:
+
+```bash
+npx expo start
+```
+
+## Primeros pasos
+
+1. Instala las dependencias
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Inicia la app
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+En la terminal podrás elegir abrir la app en:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- [Emulador Android](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [Simulador iOS](https://docs.expo.dev/workflow/ios-simulator/) (solo macOS)
+- [Expo Go](https://expo.dev/go) en tu dispositivo móvil
+- Navegador web
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Puedes comenzar a desarrollar editando los archivos dentro del directorio **app**. Este proyecto utiliza [ruteo basado en archivos](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
+## Obtener un proyecto limpio
 
-When you're ready, run:
+Cuando estés listo, ejecuta:
 
 ```bash
 npm run reset-project
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Este comando moverá el código de inicio al directorio **app-example** y creará un directorio **app** en blanco donde puedes comenzar a desarrollar.
 
-## Learn more
+## Aprende más
 
-To learn more about developing your project with Expo, look at the following resources:
+Para aprender más sobre el desarrollo con Expo, revisa los siguientes recursos:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- [Documentación de Expo](https://docs.expo.dev/)
+- [Tutorial paso a paso](https://docs.expo.dev/tutorial/introduction/)
 
-## Join the community
+## Únete a la comunidad
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [Expo en GitHub](https://github.com/expo/expo)
+- [Comunidad en Discord](https://chat.expo.dev)
