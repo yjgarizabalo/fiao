@@ -1,16 +1,24 @@
 import { Tabs } from 'expo-router';
-import { Text } from '@gluestack-ui/themed';
+import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../../constants/Colors';
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs screenOptions={{ 
+      headerShown: false,
+      tabBarActiveTintColor: Colors.black,
+      tabBarInactiveTintColor: Colors.gray400
+    }}>
       <Tabs.Screen 
         name="client" 
         options={{ 
-          title: 'Cliente',
+          title: 'Clientes',
           tabBarIcon: ({ focused }) => (
-            <Text fontSize={20} color={focused ? Colors.success : Colors.primary}>👥</Text>
+            <Ionicons 
+              name="people" 
+              size={24} 
+              color={focused ? Colors.black : Colors.gray400} 
+            />
           )
         }} 
       />
@@ -19,7 +27,11 @@ export default function TabLayout() {
         options={{ 
           title: 'Perfil',
           tabBarIcon: ({ focused }) => (
-            <Text fontSize={20} color={focused ? Colors.success : Colors.primary}>👤</Text>
+            <Ionicons 
+              name="person" 
+              size={24} 
+              color={focused ? Colors.black : Colors.gray400} 
+            />
           )
         }} 
       />

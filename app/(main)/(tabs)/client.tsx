@@ -14,6 +14,7 @@ import {
   Text,
   VStack,
 } from '@gluestack-ui/themed';
+import { Ionicons } from '@expo/vector-icons';
 import Header from '../../../components/Header';
 import { Colors } from '../../../constants/Colors';
 
@@ -56,51 +57,61 @@ export default function ClientScreen() {
   return (
     <Box flex={1} bg="$backgroundLight50">
       <Header title="Clientes" />
-      <VStack space="sm" alignItems="center" p="$3" mt="$2">
-        <Heading size="2xl" textAlign="center">
-          ¡Bienvenido👋!
-        </Heading>
-        <Text size="lg" color="$textLight600" textAlign="center">
-          Gestiona tus clientes
-        </Text>
-      </VStack>
+      <Box bg="$white" p="$4" borderBottomWidth={1} borderBottomColor="$borderLight200">
+        <VStack space="xs" alignItems="center">
+          <Heading size="xl" color={Colors.primary}>
+            Mis Clientes
+          </Heading>
+          <Text size="sm" color="$textLight500">
+            {mockClients.length} clientes registrados
+          </Text>
+        </VStack>
+      </Box>
       <ScrollView flex={1} p="$4" contentContainerStyle={{ paddingBottom: 20 }}>
         <VStack space="md">
           {mockClients.map((client) => (
             <Card 
               key={client.id} 
               p="$4" 
-              height={80}
               bg="$white" 
-              borderRadius={14}
+              borderRadius={12}
               borderWidth={1}
               borderColor="$borderLight200"
               shadowOpacity={0}
               elevation={0}
+              $pressed={{
+                bg: "$backgroundLight100",
+                borderColor: Colors.primary
+              }}
             >
               <Pressable onPress={() => handleClientPress(client.id)}>
                 <HStack alignItems="center" justifyContent="space-between">
                   <HStack alignItems="center" space="md" flex={1}>
-                    <Avatar size="sm" bg={Colors.gray400} borderRadius="$full">
-                      <AvatarFallbackText>{client.name}</AvatarFallbackText>
+                    <Avatar size="md" bg={Colors.gray200} borderRadius="$full">
+                      <AvatarFallbackText color={Colors.gray600}>{client.name}</AvatarFallbackText>
                     </Avatar>
                     <VStack flex={1}>
-                      <Text size="lg" fontWeight="$semibold">
+                      <Text size="md" fontWeight="$semibold" color={Colors.primary}>
                         {client.name}
                       </Text>
-                      <Badge 
-                        size="sm" 
-                        variant="solid" 
-                        bg={getStatusColor(client.status)}
-                        alignSelf="flex-start"
-                      >
-                        <BadgeText color="$white">
+                      <HStack alignItems="center" space="xs">
+                        <Box 
+                          w={8} 
+                          h={8} 
+                          borderRadius="$full" 
+                          bg={getStatusColor(client.status)}
+                        />
+                        <Text size="sm" color={getStatusColor(client.status)} fontWeight="$medium">
                           {getStatusText(client.status)}
-                        </BadgeText>
-                      </Badge>
+                        </Text>
+                      </HStack>
                     </VStack>
                   </HStack>
-                  <Text size="xl" color="$textLight400">›</Text>
+                  <Ionicons 
+                    name="chevron-forward" 
+                    size={20} 
+                    color={Colors.gray400} 
+                  />
                 </HStack>
               </Pressable>
             </Card>
@@ -121,7 +132,7 @@ export default function ClientScreen() {
         >
           <HStack alignItems="center" justifyContent="space-between" w="100%">
             <ButtonText color={Colors.white}>Agregar cliente</ButtonText>
-            <Text color={Colors.white} size="xl">+</Text>
+            <Ionicons name="add" size={20} color={Colors.white} />
           </HStack>
         </Button>
       </Box>
