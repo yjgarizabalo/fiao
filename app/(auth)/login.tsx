@@ -22,7 +22,7 @@ export default function LoginScreen() {
   const handleLogin = () => {
     // TODO: Implementar lógica de login
     console.log('Login:', { email, password });
-    router.replace('/(main)/(tabs)/home');
+    router.replace('/(main)/(tabs)/client');
   };
 
   return (

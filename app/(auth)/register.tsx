@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { router } from 'expo-router';
 import {
   Box,
-  VStack,
+  Button,
+  ButtonText,
   Heading,
   Input,
   InputField,
-  Button,
-  ButtonText,
-  Text,
   Pressable,
+  Text,
+  VStack,
 } from '@gluestack-ui/themed';
+import { router } from 'expo-router';
+import { useState } from 'react';
 
 export default function RegisterScreen() {
   const [name, setName] = useState('');
@@ -20,7 +20,7 @@ export default function RegisterScreen() {
   const handleRegister = () => {
     // TODO: Implementar lógica de registro
     console.log('Register:', { name, email, password });
-    router.replace('/(main)/(tabs)/home');
+    router.replace('/(main)/(tabs)/client');
   };
 
   return (
