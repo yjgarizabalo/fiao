@@ -1,8 +1,7 @@
+import { Ionicons } from '@expo/vector-icons';
 import {
   Avatar,
   AvatarFallbackText,
-  Badge,
-  BadgeText,
   Box,
   Button,
   ButtonText,
@@ -12,9 +11,9 @@ import {
   Pressable,
   ScrollView,
   Text,
-  VStack,
+  VStack
 } from '@gluestack-ui/themed';
-import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import Header from '../../../components/Header';
 import { Colors } from '../../../constants/Colors';
 
@@ -52,6 +51,7 @@ export default function ClientScreen() {
   const handleAddClient = () => {
     // TODO: Navegar a agregar cliente
     console.log('Agregar cliente');
+    router.replace('/(client)/credit');
   };
 
   return (

@@ -1,7 +1,7 @@
+import { config } from '@gluestack-ui/config';
+import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { GluestackUIProvider } from '@gluestack-ui/themed';
-import { config } from '@gluestack-ui/config';
 
 export default function RootLayout() {
   return (
@@ -10,6 +10,7 @@ export default function RootLayout() {
         <Stack.Screen name="index" />
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(main)" />
+        <Stack.Screen name="(client)" />
       </Stack>
       <StatusBar style="auto" />
     </GluestackUIProvider>
