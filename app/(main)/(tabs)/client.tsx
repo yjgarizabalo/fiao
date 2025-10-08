@@ -51,7 +51,7 @@ export default function ClientScreen() {
   const handleAddClient = () => {
     // TODO: Navegar a agregar cliente
     console.log('Agregar cliente');
-    router.replace('/(client)/credit');
+    router.replace('/(client)/client');
   };
 
   return (
