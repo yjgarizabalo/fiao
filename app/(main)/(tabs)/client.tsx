@@ -8,12 +8,15 @@ import {
   Card,
   Heading,
   HStack,
+  Input,
+  InputField,
   Pressable,
   ScrollView,
   Text,
   VStack
 } from '@gluestack-ui/themed';
 import { router } from 'expo-router';
+import { useState } from 'react';
 import Header from '../../../components/Header';
 import { Colors } from '../../../constants/Colors';
 
@@ -35,9 +38,21 @@ const mockClients: Client[] = [
 ];
 
 export default function ClientScreen() {
+  const [searchText, setSearchText] = useState('');
+
+  const normalizeText = (text: string) => {
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  };
+
+  const filteredClients = mockClients.filter(client =>
+    normalizeText(client.name).includes(normalizeText(searchText))
+  );
+
   const handleClientPress = (clientId: string) => {
-    // TODO: Navegar a detalle del cliente
-    console.log('Cliente seleccionado:', clientId);
+    router.push(`/(client)/client?id=${clientId}`);
   };
 
   const getStatusColor = (status: string) => {
@@ -49,27 +64,48 @@ export default function ClientScreen() {
   };
 
   const handleAddClient = () => {
-    // TODO: Navegar a agregar cliente
-    console.log('Agregar cliente');
-    router.replace('/(client)/client');
+    router.push('/(client)/addClientCredit');
   };
 
   return (
     <Box flex={1} bg="$backgroundLight50">
       <Header title="Clientes" />
       <Box bg="$white" p="$4" borderBottomWidth={1} borderBottomColor="$borderLight200">
-        <VStack space="xs" alignItems="center">
-          <Heading size="xl" color={Colors.primary}>
-            Mis Clientes
-          </Heading>
-          <Text size="sm" color="$textLight500">
-            {mockClients.length} clientes registrados
-          </Text>
+        <VStack space="md">
+          <VStack space="xs" alignItems="center">
+            <Heading size="xl" color={Colors.primary}>
+              Mis Clientes
+            </Heading>
+            <Text size="sm" color="$textLight500">
+              {filteredClients.length} de {mockClients.length} clientes
+            </Text>
+          </VStack>
+          
+          <HStack 
+            alignItems="center" 
+            space="sm" 
+            bg="$backgroundLight50" 
+            borderRadius={8} 
+            borderWidth={1} 
+            borderColor="$borderLight200" 
+            px="$3" 
+            h={44}
+          >
+            <Ionicons name="search" size={18} color={Colors.gray400} />
+            <Input flex={1} variant="outline" size="sm" bg="transparent" borderWidth={0}>
+              <InputField
+                placeholder="Buscar cliente..."
+                value={searchText}
+                onChangeText={setSearchText}
+              />
+            </Input>
+          </HStack>
         </VStack>
       </Box>
+      
       <ScrollView flex={1} p="$4" contentContainerStyle={{ paddingBottom: 20 }}>
         <VStack space="md">
-          {mockClients.map((client) => (
+          {filteredClients.map((client) => (
             <Card 
               key={client.id} 
               p="$4" 
