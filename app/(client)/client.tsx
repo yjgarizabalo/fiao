@@ -12,7 +12,10 @@ import {
 } from '@gluestack-ui/themed';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
 import Header from '../../components/Header';
+import AddDebtModal from '../../components/AddDebtModal';
+import RegisterPaymentModal from '../../components/RegisterPaymentModal';
 import { Colors } from '../../constants/Colors';
 
 interface Client {
@@ -50,17 +53,30 @@ export default function CreditClientScreen() {
   const { id } = useLocalSearchParams();
   const client = mockClients.find(c => c.id === id) || mockClients[0];
   const currentBalance = client.status === 'debe' ? 45000 : 0;
+  
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isDebtModalOpen, setIsDebtModalOpen] = useState(false);
 
   const handleBack = () => {
     router.back();
   };
 
   const handleRegisterPayment = () => {
-    console.log('Registrar pago');
+    setIsPaymentModalOpen(true);
   };
 
   const handleAddDebt = () => {
-    console.log('Agregar deuda');
+    setIsDebtModalOpen(true);
+  };
+
+  const handlePaymentSubmit = (data: { amount: number; description: string }) => {
+    console.log('Pago registrado:', data);
+    // Aquí implementarías la lógica para guardar el pago
+  };
+
+  const handleDebtSubmit = (data: { amount: number; description: string }) => {
+    console.log('Deuda agregada:', data);
+    // Aquí implementarías la lógica para guardar la deuda
   };
 
   const formatCurrency = (amount: number) => {
@@ -166,6 +182,21 @@ export default function CreditClientScreen() {
           ))}
         </VStack>
       </ScrollView>
+      
+      <RegisterPaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        onSubmit={handlePaymentSubmit}
+        clientName={client.name}
+        currentDebt={currentBalance}
+      />
+      
+      <AddDebtModal
+        isOpen={isDebtModalOpen}
+        onClose={() => setIsDebtModalOpen(false)}
+        onSubmit={handleDebtSubmit}
+        clientName={client.name}
+      />
     </Box>
   );
 }
