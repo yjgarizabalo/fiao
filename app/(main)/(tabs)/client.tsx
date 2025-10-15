@@ -19,25 +19,13 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import Header from '../../../components/Header';
 import { Colors } from '../../../constants/Colors';
+import { useClients } from '../../../contexts/ClientContext';
 
 
-interface Client {
-  id: string;
-  name: string;
-  status: 'al_dia' | 'debe';
-  avatar?: string;
-}
 
-const mockClients: Client[] = [
-  { id: '1', name: 'Juan Pérez', status: 'al_dia' },
-  { id: '2', name: 'María García', status: 'debe' },
-  { id: '3', name: 'Carlos López', status: 'al_dia' },
-  { id: '4', name: 'Ana Martínez', status: 'debe' },
-  { id: '5', name: 'Luis Rodríguez', status: 'al_dia' },
-  { id: '6', name: 'Carmen Silva', status: 'debe' },
-];
 
 export default function ClientScreen() {
+  const { clients } = useClients();
   const [searchText, setSearchText] = useState('');
 
   const normalizeText = (text: string) => {
@@ -47,8 +35,8 @@ export default function ClientScreen() {
       .replace(/[\u0300-\u036f]/g, '');
   };
 
-  const filteredClients = mockClients.filter(client =>
-    normalizeText(client.name).includes(normalizeText(searchText))
+  const filteredClients = clients.filter(client =>
+    normalizeText(`${client.name} ${client.lastName}`).includes(normalizeText(searchText))
   );
 
   const handleClientPress = (clientId: string) => {
@@ -77,7 +65,7 @@ export default function ClientScreen() {
               Mis Clientes
             </Heading>
             <Text size="sm" color="$textLight500">
-              {filteredClients.length} de {mockClients.length} clientes
+              {filteredClients.length} de {clients.length} clientes
             </Text>
           </VStack>
           
@@ -124,11 +112,11 @@ export default function ClientScreen() {
                 <HStack alignItems="center" justifyContent="space-between">
                   <HStack alignItems="center" space="md" flex={1}>
                     <Avatar size="md" bg={Colors.gray200} borderRadius="$full">
-                      <AvatarFallbackText color={Colors.gray600}>{client.name}</AvatarFallbackText>
+                      <AvatarFallbackText color={Colors.gray600}>{client.name} {client.lastName}</AvatarFallbackText>
                     </Avatar>
                     <VStack flex={1}>
                       <Text size="md" fontWeight="$semibold" color={Colors.primary}>
-                        {client.name}
+                        {client.name} {client.lastName}
                       </Text>
                       <HStack alignItems="center" space="xs">
                         <Box 

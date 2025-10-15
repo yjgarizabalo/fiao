@@ -17,22 +17,9 @@ import Header from '../../components/Header';
 import AddDebtModal from '../../components/AddDebtModal';
 import RegisterPaymentModal from '../../components/RegisterPaymentModal';
 import { Colors } from '../../constants/Colors';
+import { useClients } from '../../contexts/ClientContext';
 
-interface Client {
-  id: string;
-  name: string;
-  status: 'al_dia' | 'debe';
-  avatar?: string;
-}
 
-const mockClients: Client[] = [
-  { id: '1', name: 'Juan Pérez', status: 'al_dia' },
-  { id: '2', name: 'María García', status: 'debe' },
-  { id: '3', name: 'Carlos López', status: 'al_dia' },
-  { id: '4', name: 'Ana Martínez', status: 'debe' },
-  { id: '5', name: 'Luis Rodríguez', status: 'al_dia' },
-  { id: '6', name: 'Carmen Silva', status: 'debe' },
-];
 
 interface Transaction {
   id: string;
@@ -42,20 +29,25 @@ interface Transaction {
   description: string;
 }
 
-const mockTransactions: Transaction[] = [
-  { id: '1', type: 'deuda', amount: 50000, date: '2024-01-15', description: 'Compra mercancía' },
-  { id: '2', type: 'pago', amount: 20000, date: '2024-01-20', description: 'Pago parcial' },
-  { id: '3', type: 'deuda', amount: 30000, date: '2024-01-25', description: 'Compra adicional' },
-  { id: '4', type: 'pago', amount: 15000, date: '2024-01-30', description: 'Abono' },
-];
+const mockTransactions: Transaction[] = [];
 
 export default function CreditClientScreen() {
   const { id } = useLocalSearchParams();
-  const client = mockClients.find(c => c.id === id) || mockClients[0];
-  const currentBalance = client.status === 'debe' ? 45000 : 0;
-  
+  const { getClient } = useClients();
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isDebtModalOpen, setIsDebtModalOpen] = useState(false);
+  
+  const client = getClient(id as string);
+  
+  if (!client) {
+    return (
+      <Box flex={1} bg="$backgroundLight50" justifyContent="center" alignItems="center">
+        <Text>Cliente no encontrado</Text>
+      </Box>
+    );
+  }
+  
+  const currentBalance = client.balance;
 
   const handleBack = () => {
     router.back();
@@ -97,7 +89,7 @@ export default function CreditClientScreen() {
             <Ionicons name="arrow-back" size={24} color={Colors.primary} />
           </Pressable>
           <Heading size="lg" color={Colors.primary} flex={1}>
-            {client.name}
+            {client.name} {client.lastName}
           </Heading>
         </HStack>
 
@@ -144,42 +136,50 @@ export default function CreditClientScreen() {
 
       <ScrollView flex={1} px="$4" contentContainerStyle={{ paddingBottom: 20 }}>
         <VStack space="sm">
-          {mockTransactions.map((transaction) => (
-            <Card 
-              key={transaction.id} 
-              p="$3" 
-              bg="$white" 
-              borderRadius={8}
-              borderWidth={1}
-              borderColor="$borderLight200"
-            >
-              <HStack alignItems="center" justifyContent="space-between">
-                <VStack flex={1}>
-                  <HStack alignItems="center" space="xs">
-                    <Box 
-                      w={8} 
-                      h={8} 
-                      borderRadius="$full" 
-                      bg={transaction.type === 'pago' ? Colors.success : Colors.error}
-                    />
-                    <Text size="sm" fontWeight="$medium" color={Colors.primary}>
-                      {transaction.description}
-                    </Text>
-                  </HStack>
-                  <Text size="xs" color="$textLight500">
-                    {formatDate(transaction.date)}
-                  </Text>
-                </VStack>
-                <Text 
-                  size="md" 
-                  fontWeight="$semibold" 
-                  color={transaction.type === 'pago' ? Colors.success : Colors.error}
-                >
-                  {transaction.type === 'pago' ? '-' : '+'}{formatCurrency(transaction.amount)}
-                </Text>
-              </HStack>
+          {mockTransactions.length === 0 ? (
+            <Card p="$4" bg="$white" borderRadius={8} borderWidth={1} borderColor="$borderLight200">
+              <Text size="sm" color="$textLight500" textAlign="center">
+                No hay movimientos registrados
+              </Text>
             </Card>
-          ))}
+          ) : (
+            mockTransactions.map((transaction) => (
+              <Card 
+                key={transaction.id} 
+                p="$3" 
+                bg="$white" 
+                borderRadius={8}
+                borderWidth={1}
+                borderColor="$borderLight200"
+              >
+                <HStack alignItems="center" justifyContent="space-between">
+                  <VStack flex={1}>
+                    <HStack alignItems="center" space="xs">
+                      <Box 
+                        w={8} 
+                        h={8} 
+                        borderRadius="$full" 
+                        bg={transaction.type === 'pago' ? Colors.success : Colors.error}
+                      />
+                      <Text size="sm" fontWeight="$medium" color={Colors.primary}>
+                        {transaction.description}
+                      </Text>
+                    </HStack>
+                    <Text size="xs" color="$textLight500">
+                      {formatDate(transaction.date)}
+                    </Text>
+                  </VStack>
+                  <Text 
+                    size="md" 
+                    fontWeight="$semibold" 
+                    color={transaction.type === 'pago' ? Colors.success : Colors.error}
+                  >
+                    {transaction.type === 'pago' ? '-' : '+'}{formatCurrency(transaction.amount)}
+                  </Text>
+                </HStack>
+              </Card>
+            ))
+          )}
         </VStack>
       </ScrollView>
       
