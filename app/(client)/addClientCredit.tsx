@@ -15,8 +15,10 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Header from '../../components/Header';
 import { Colors } from '../../constants/Colors';
+import { useClients } from '../../contexts/ClientContext';
 
 export default function AddClientCreditScreen() {
+  const { addClient } = useClients();
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [cedula, setCedula] = useState('');
@@ -39,7 +41,11 @@ export default function AddClientCreditScreen() {
 
   const handleSave = () => {
     if (validateForm()) {
-      console.log('Cliente guardado:', { nombre, apellido, cedula });
+      addClient({
+        name: nombre,
+        lastName: apellido,
+        cedula: cedula || undefined
+      });
       router.back();
     }
   };
